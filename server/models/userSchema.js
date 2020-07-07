@@ -18,6 +18,15 @@ const newUser = new Schema({
   refresh_token: {
     type: String,
   },
+  favourites: {
+    type: [
+      {
+        type: mongoose.ObjectId,
+        ref: "Product",
+        unique: true,
+      },
+    ],
+  },
   cart: {
     type: [
       {
