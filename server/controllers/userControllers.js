@@ -17,7 +17,7 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { username, email, password } = req.body;
+  const { username, email, password, phonenumber } = req.body;
 
   let existingUser;
 
@@ -42,7 +42,9 @@ const signup = async (req, res, next) => {
     username,
     hashedPassword,
     email,
+    phonenumber,
     cart: [],
+    favourites: [],
   });
 
   let accessToken, refresh_token;
@@ -58,12 +60,13 @@ const signup = async (req, res, next) => {
   try {
     await newUser.save();
   } catch (err) {
-    return next(new Error("Creating new user failed, try again later"));
+    console.log(err);
+    return next(new Error("Creating new user failed, try again later", err));
   }
 
   res.cookie("refreshtoken", refresh_token, {
-    httpOnly: true,
     path: "/api/v1/user/refresh_token",
+    httpOnly: true,
   });
 
   res.json({ accesstoken: accessToken });
@@ -121,10 +124,9 @@ const login = async (req, res, next) => {
   }
 
   res.cookie("refreshtoken", refresh_token, {
-    httpOnly: true,
     path: "/api/v1/user/refresh_token",
+    httpOnly: true,
   });
-
   res.json({ accesstoken: accessToken });
 };
 

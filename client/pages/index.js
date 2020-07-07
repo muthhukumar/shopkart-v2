@@ -1,209 +1,93 @@
-import Head from 'next/head'
+import { useState } from "react";
+import Head from "next/head";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { thunkAutoLogin } from "../redux/userStore/thunkActionCreators";
 
-export default function Home() {
+import Layout from "../components/Layout";
+import ProductCard from "../components/productCard";
+import { withRedux } from "../redux/redux";
+
+function Home() {
+  const [data, setData] = useState(null);
+
+  const user = useSelector((state) => {
+    return state.user;
+  });
+
+  useEffect(() => {
+    async function getData() {
+      let response, jsonData;
+      try {
+        response = await fetch(
+          process.env.NEXT_PUBLIC_SERVER_API + "/products"
+        );
+        jsonData = await response.json();
+        setData(jsonData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (!data) getData();
+  }, []);
+
   return (
-    <div className="container">
+    <Layout disable={false}>
       <Head>
-        <title>Create Next App</title>
+        <title>Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <h1 className="title">Products</h1>
+        <div className="product-card">
+          {data &&
+            data.products.map((product) => (
+              <ProductCard
+                key={product._id}
+                title={product.productName}
+                isInCart={false}
+                isInFav={false}
+                price={product.productPrice}
+                imageUrl={product.productUrl}
+              />
+            ))}
         </div>
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
+      <style jsx>
+        {`
+          main {
+            padding-top: 5rem;
+            display: grid;
+            grid-template-areas:
+              "title"
+              "content";
           }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+          .title {
+            width: 100%;
+            font-size: 3rem;
+            font-weight: bolder;
+            letter-spacing: 3px;
+            grid-area: title;
+            text-align: center;
+          }
+          .product-card {
+            grid-area: content;
+            grid-template-columns: repeat(auto-fit, 19rem);
+            justify-content: center;
+            display: grid;
+            grid-auto-columns: repeat(19rem, auto);
+          }
+        `}
+      </style>
+    </Layout>
+  );
 }
+
+Home.getInitialProps = ({ reduxStore }) => {
+  const { dispatch } = reduxStore;
+  console.log("came here yes");
+  dispatch(thunkAutoLogin());
+  return {};
+};
+
+export default withRedux(Home);

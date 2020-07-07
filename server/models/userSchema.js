@@ -18,6 +18,11 @@ const newUser = new Schema({
   refresh_token: {
     type: String,
   },
+  phonenumber: {
+    type: Number,
+    required: true,
+    minlength: 10,
+  },
   favourites: {
     type: [
       {

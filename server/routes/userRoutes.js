@@ -14,6 +14,7 @@ router.post(
     check("username").not().isEmpty(),
     check("email").normalizeEmail().isEmail(),
     check("password").isLength({ min: 8 }),
+    check("phonenumber").isLength({ max: 10, min: 10 }),
   ],
   signup
 );
