@@ -37,7 +37,26 @@ const addProduct = async (req, res, next) => {
     return next(new Error("something went wrong"));
   }
 
-  res.status(200).json({ cart: user.cart });
+  let products;
+  try {
+    products = await Product.find({ _id: { $in: user.cart } });
+  } catch (err) {
+    return next(new Error("something went wrong"));
+  }
+
+  const allProducts = [];
+  for (let i = 0; i < user.cart.length; i++) {
+    let prod = {
+      _id: products[i]._id,
+      productName: products[i].productName,
+      productPrice: products[i].productPrice,
+      productUrl: products[i].productUrl,
+      count: user.cart[i].productCount,
+    };
+    allProducts.push(prod);
+  }
+
+  res.status(200).json({ products: allProducts });
 };
 
 const updateProduct = async (req, res, next) => {
@@ -87,8 +106,26 @@ const updateProduct = async (req, res, next) => {
   } catch (err) {
     return next(new Error("something went wrong"));
   }
+  let products;
+  try {
+    products = await Product.find({ _id: { $in: user.cart } });
+  } catch (err) {
+    return next(new Error("something went wrong"));
+  }
 
-  res.status(200).json({ cart: user.cart });
+  const allProducts = [];
+  for (let i = 0; i < user.cart.length; i++) {
+    let prod = {
+      _id: products[i]._id,
+      productName: products[i].productName,
+      productPrice: products[i].productPrice,
+      productUrl: products[i].productUrl,
+      count: user.cart[i].productCount,
+    };
+    allProducts.push(prod);
+  }
+
+  res.status(200).json({ products: allProducts });
 };
 
 const removeProduct = async (req, res, next) => {
@@ -126,7 +163,26 @@ const removeProduct = async (req, res, next) => {
     return next(new Error("something went wrong"));
   }
 
-  res.json({ products: user.cart });
+  let products;
+  try {
+    products = await Product.find({ _id: { $in: user.cart } });
+  } catch (err) {
+    return next(new Error("something went wrong"));
+  }
+
+  const allProducts = [];
+  for (let i = 0; i < user.cart.length; i++) {
+    let prod = {
+      _id: products[i]._id,
+      productName: products[i].productName,
+      productPrice: products[i].productPrice,
+      productUrl: products[i].productUrl,
+      count: user.cart[i].productCount,
+    };
+    allProducts.push(prod);
+  }
+
+  res.status(200).json({ products: allProducts });
 };
 
 const products = async (req, res, next) => {
@@ -142,20 +198,19 @@ const products = async (req, res, next) => {
   }
 
   if (!user) return next(new Error("user not found"));
-  let products;
 
   const productsIds = [];
+  let products;
   for (let i = 0; i < user.cart.length; i++) {
     productsIds.push(user.cart[i].productId);
   }
 
+  let products;
   try {
     products = await Product.find({ _id: { $in: productsIds } });
   } catch (err) {
     return next(new Error("something went wrong"));
   }
-
-  if (!products) return next(new Error("products not found"));
 
   const allProducts = [];
   for (let i = 0; i < user.cart.length; i++) {
@@ -203,7 +258,14 @@ const addFavourite = async (req, res, next) => {
     return next(new Error("something went wrong"));
   }
 
-  res.status(200).json({ favourites: user.favourites });
+  let favourites;
+  try {
+    favourites = await Product.find({ _id: { $in: user.favourites } });
+  } catch (err) {
+    return next(new Error("something went wrong"));
+  }
+
+  res.status(200).json({ favourites });
 };
 
 const favourites = async (req, res, next) => {
@@ -226,8 +288,6 @@ const favourites = async (req, res, next) => {
   } catch (err) {
     return next(new Error("something went wrong"));
   }
-
-  if (!favourites) return next(new Error("favourites not found"));
 
   res.status(200).json({ favourites });
 };
@@ -271,7 +331,14 @@ const removeFavourite = async (req, res, next) => {
     return next(new Error("something went wrong"));
   }
 
-  res.json({ favourites: user.favourites });
+  let favourites;
+  try {
+    favourites = await Product.find({ _id: { $in: user.favourites } });
+  } catch (err) {
+    return next(new Error("something went wrong"));
+  }
+
+  res.status(200).json({ favourites });
 };
 module.exports = {
   addProduct,
