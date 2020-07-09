@@ -37,9 +37,14 @@ const addProduct = async (req, res, next) => {
     return next(new Error("something went wrong"));
   }
 
-  let products;
+  const productsIds = [];
+  for (let i = 0; i < user.cart.length; i++) {
+    productsIds.push(user.cart[i].productId);
+  }
+
+  let userProducts;
   try {
-    products = await Product.find({ _id: { $in: user.cart } });
+    userProducts = await Product.find({ _id: { $in: productsIds } });
   } catch (err) {
     return next(new Error("something went wrong"));
   }
@@ -47,10 +52,10 @@ const addProduct = async (req, res, next) => {
   const allProducts = [];
   for (let i = 0; i < user.cart.length; i++) {
     let prod = {
-      _id: products[i]._id,
-      productName: products[i].productName,
-      productPrice: products[i].productPrice,
-      productUrl: products[i].productUrl,
+      _id: userProducts[i]._id,
+      productName: userProducts[i].productName,
+      productPrice: userProducts[i].productPrice,
+      productUrl: userProducts[i].productUrl,
       count: user.cart[i].productCount,
     };
     allProducts.push(prod);
@@ -106,9 +111,13 @@ const updateProduct = async (req, res, next) => {
   } catch (err) {
     return next(new Error("something went wrong"));
   }
-  let products;
+  const productsIds = [];
+  for (let i = 0; i < user.cart.length; i++) {
+    productsIds.push(user.cart[i].productId);
+  }
+  let userProducts;
   try {
-    products = await Product.find({ _id: { $in: user.cart } });
+    userProducts = await Product.find({ _id: { $in: productsIds } });
   } catch (err) {
     return next(new Error("something went wrong"));
   }
@@ -116,10 +125,10 @@ const updateProduct = async (req, res, next) => {
   const allProducts = [];
   for (let i = 0; i < user.cart.length; i++) {
     let prod = {
-      _id: products[i]._id,
-      productName: products[i].productName,
-      productPrice: products[i].productPrice,
-      productUrl: products[i].productUrl,
+      _id: userProducts[i]._id,
+      productName: userProducts[i].productName,
+      productPrice: userProducts[i].productPrice,
+      productUrl: userProducts[i].productUrl,
       count: user.cart[i].productCount,
     };
     allProducts.push(prod);
@@ -162,21 +171,25 @@ const removeProduct = async (req, res, next) => {
   } catch (err) {
     return next(new Error("something went wrong"));
   }
+  const productsIds = [];
+  for (let i = 0; i < user.cart.length; i++) {
+    productsIds.push(user.cart[i].productId);
+  }
 
-  let products;
+  let userProducts;
   try {
-    products = await Product.find({ _id: { $in: user.cart } });
+    userProducts = await Product.find({ _id: { $in: productsIds } });
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("something went wrong", err));
   }
 
   const allProducts = [];
   for (let i = 0; i < user.cart.length; i++) {
     let prod = {
-      _id: products[i]._id,
-      productName: products[i].productName,
-      productPrice: products[i].productPrice,
-      productUrl: products[i].productUrl,
+      _id: userProducts[i]._id,
+      productName: userProducts[i].productName,
+      productPrice: userProducts[i].productPrice,
+      productUrl: userProducts[i].productUrl,
       count: user.cart[i].productCount,
     };
     allProducts.push(prod);
@@ -200,14 +213,13 @@ const products = async (req, res, next) => {
   if (!user) return next(new Error("user not found"));
 
   const productsIds = [];
-  let products;
   for (let i = 0; i < user.cart.length; i++) {
     productsIds.push(user.cart[i].productId);
   }
 
-  let products;
+  let userProducts;
   try {
-    products = await Product.find({ _id: { $in: productsIds } });
+    userProducts = await Product.find({ _id: { $in: productsIds } });
   } catch (err) {
     return next(new Error("something went wrong"));
   }
@@ -215,10 +227,10 @@ const products = async (req, res, next) => {
   const allProducts = [];
   for (let i = 0; i < user.cart.length; i++) {
     let prod = {
-      _id: products[i]._id,
-      productName: products[i].productName,
-      productPrice: products[i].productPrice,
-      productUrl: products[i].productUrl,
+      _id: userProducts[i]._id,
+      productName: userProducts[i].productName,
+      productPrice: userProducts[i].productPrice,
+      productUrl: userProducts[i].productUrl,
       count: user.cart[i].productCount,
     };
     allProducts.push(prod);
