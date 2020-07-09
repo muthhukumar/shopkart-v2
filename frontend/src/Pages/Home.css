@@ -1,0 +1,21 @@
+.main-container {
+  display: grid;
+  grid-template-areas:
+    "title"
+    "content";
+}
+.product-title {
+  width: 100%;
+  font-size: 3rem;
+  font-weight: bolder;
+  letter-spacing: 3px;
+  grid-area: title;
+  text-align: center;
+}
+.product-card {
+  grid-area: content;
+  grid-template-columns: repeat(auto-fit, 19rem);
+  justify-content: center;
+  display: grid;
+  grid-auto-columns: repeat(19rem, auto);
+}
