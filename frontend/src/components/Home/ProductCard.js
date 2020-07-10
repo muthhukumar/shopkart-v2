@@ -26,7 +26,7 @@ export default function ({
         onClick={
           !fav
             ? onFavAdd.bind(this, { id, imageUrl, title, price })
-            : onFavRemove.bind(this, id)
+            : onFavRemove.bind(this, id, title)
         }
         className={`home-fav ${fav && "home-highlight"}`}
       >
@@ -49,7 +49,7 @@ export default function ({
                       imageUrl,
                       price,
                     })
-                  : onProductRemove.bind(this, id)
+                  : onProductRemove.bind(this, id, title)
               }
             >
               {!isInCart ? "Add to Cart" : "remove"}

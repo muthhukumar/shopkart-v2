@@ -20,6 +20,7 @@ import {
   thunkGetCart,
 } from "./redux/productStore/thunkActionCreators";
 import Fallback from "./components/fallback";
+import ErrorModal from "./components/ErrorModal";
 
 function App() {
   const data = useSelector((state) => {
@@ -29,6 +30,7 @@ function App() {
       state.product.gotCartInitialData,
       state.product.products,
       state.user.gotInitialData,
+      state.action.isNotificationOpen,
     ];
   });
   const [
@@ -37,6 +39,7 @@ function App() {
     gotCartInitialData,
     products,
     gotInitialData,
+    isNotificationOpen,
   ] = data;
   let routes;
   const dispatch = useDispatch();
@@ -73,6 +76,7 @@ function App() {
   return (
     <Router>
       <Navigation />
+      {isNotificationOpen && <ErrorModal />}
       <main>{routes}</main>
     </Router>
   );

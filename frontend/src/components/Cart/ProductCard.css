@@ -77,3 +77,6 @@
   color: white;
 }
 
+.disabled:disabled:hover {
+  cursor: not-allowed;
+}

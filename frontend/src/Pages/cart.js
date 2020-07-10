@@ -14,8 +14,8 @@ export default function () {
 
   const dispatch = useDispatch();
 
-  const onRemoveHandler = (id) => {
-    dispatch(thunkRemoveItemFromCart(token, id));
+  const onRemoveHandler = (id, title) => {
+    dispatch(thunkRemoveItemFromCart(token, id, title));
   };
 
   return (
@@ -27,6 +27,7 @@ export default function () {
         {cart.length !== 0 &&
           cart.map((product) => (
             <ProductCard
+              token={token}
               onFavRemove={onRemoveHandler}
               id={product._id}
               key={product._id}

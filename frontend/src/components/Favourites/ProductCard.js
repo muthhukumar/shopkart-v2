@@ -10,7 +10,7 @@ export default function ({ title, price, onFavRemove, id, imageUrl }) {
           <h3 className="productName">{title}</h3>
           <div className="price">${price}</div>
           <div className="buttonContainer">
-            <button onClick={onFavRemove.bind(this, id)}>remove</button>
+            <button onClick={onFavRemove.bind(this, id, title)}>remove</button>
           </div>
         </div>
       </div>

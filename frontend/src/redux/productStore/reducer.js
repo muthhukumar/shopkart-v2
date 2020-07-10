@@ -1,11 +1,12 @@
 import {
   FETCH_PRODUCTS,
   GET_CART,
-  GET_FAV,
   ADD_TO_CART,
+  UPDATE_CART,
+  REMOVE_ITEM_FROM_CART,
+  GET_FAV,
   ADD_TO_FAV,
   REMOVE_ITEM_FROM_FAV,
-  REMOVE_ITEM_FROM_CART,
   LOGOUT,
 } from "./actionTypes";
 const initialState = {
@@ -26,6 +27,20 @@ export default (state = initialState, action) => {
 
     case ADD_TO_CART:
       return { ...state, cart: [...state.cart, action.payload] };
+
+    case UPDATE_CART:
+      const index = state.cart.findIndex(
+        (prod) => prod._id === action.payload._id
+      );
+      console.log(index);
+      const usercart = [...state.cart];
+      console.log(usercart[index]);
+      usercart[index] = {
+        ...action.payload,
+      };
+      console.log(usercart[index]);
+      console.log(usercart[index]);
+      return { ...state, cart: [...usercart] };
 
     case REMOVE_ITEM_FROM_CART:
       const prodcut_id = action.payload;

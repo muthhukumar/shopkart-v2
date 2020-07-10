@@ -14,8 +14,8 @@ export default function () {
 
   const dispatch = useDispatch();
 
-  const onRemoveHandler = (id) => {
-    dispatch(thunkRemoveItemFromFav(token, id));
+  const onRemoveHandler = (id, title) => {
+    dispatch(thunkRemoveItemFromFav(token, id, title));
   };
 
   return (

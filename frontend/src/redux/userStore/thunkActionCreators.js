@@ -5,6 +5,7 @@ import {
   autoLoginAction,
 } from "./actionCreators";
 import { productLogoutAction } from "../productStore/actionCreators";
+import { NotifyAction } from "../ErrorHandlerStore/actionCreators";
 
 export const thunkSignup = (cred) => {
   return async function (dispatch) {
@@ -22,10 +23,14 @@ export const thunkSignup = (cred) => {
         }
       );
       data = await response.json();
-      console.log(data);
+
+      if (!response.ok) throw new Error(data.message);
+
+      dispatch(NotifyAction("SignUp Successfull"));
       dispatch(signupAction(data.accesstoken));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction(err.message));
     }
   };
 };
@@ -43,11 +48,17 @@ export const thunkLogin = (cred) => {
         },
         body: JSON.stringify(cred),
       });
+
       data = await response.json();
-      console.log(data);
+      console.log(response.ok);
+      console.log(response.ok);
+      if (!response.ok) throw new Error(data.message);
+
+      dispatch(NotifyAction("Login Successfull"));
       dispatch(loginAction(data.accesstoken));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction(err.message));
     }
   };
 };
@@ -78,16 +89,24 @@ export const thunkAutoLogin = (cred) => {
 export const thunkLogout = () => {
   return async function (dispatch) {
     try {
-      await fetch(process.env.REACT_APP_SERVER_URL + "/user/logout", {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/user/logout",
+        {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error(response.message);
+
       dispatch(logoutAction());
       dispatch(productLogoutAction());
+      dispatch(NotifyAction("Logged out"));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction("Logging out failed"));
     }
   };
 };

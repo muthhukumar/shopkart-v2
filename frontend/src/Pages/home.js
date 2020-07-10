@@ -36,12 +36,12 @@ function Home() {
     dispatch(thunkAddToFav(token, id));
   };
 
-  const favDeleteHandler = (id) => {
-    dispatch(thunkRemoveItemFromFav(token, id));
+  const favDeleteHandler = (id, title) => {
+    dispatch(thunkRemoveItemFromFav(token, id, title));
   };
 
-  const productRemoveHandler = (id) => {
-    dispatch(thunkRemoveItemFromCart(token, id));
+  const productRemoveHandler = (id, title) => {
+    dispatch(thunkRemoveItemFromCart(token, id, title));
   };
 
   return (

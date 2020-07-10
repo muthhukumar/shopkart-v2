@@ -1,12 +1,15 @@
 import {
   fetchProductsAction,
   getCartAction,
+  addToCartAction,
+  updateCartAction,
+  deleteCartItemAction,
   getFavAction,
   addToFavAction,
-  addToCartAction,
-  deleteCartItemAction,
   deleteFavItemAction,
 } from "./actionCreators";
+import { NotifyAction } from "../ErrorHandlerStore/actionCreators";
+
 const URL = process.env.REACT_APP_SERVER_URL;
 
 export function thunkGetProducts() {
@@ -54,47 +57,71 @@ export function thunkAddToCart(token, details) {
         },
         body: JSON.stringify({
           productId: details.id,
-          productCount: -1,
+          productCount: 1,
         }),
       });
 
       data = await response.json();
-      console.log(data);
-      const {
-        id: _id,
-        title: productName,
-        price: productPrice,
-        imageUrl: productUrl,
-        productCount,
-      } = details;
-      dispatch(
-        addToCartAction({
-          _id,
-          productName,
-          productPrice,
-          productUrl,
-          productCount,
-        })
-      );
+
+      if (!response.ok) throw new Error(data.message);
+
+      const product = data.products.filter((prod) => prod._id === details.id);
+      dispatch(NotifyAction(`${product[0].productName} Added to Cart`));
+      dispatch(addToCartAction(product[0]));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction(err.message));
     }
   };
 }
 
-export function thunkRemoveItemFromCart(token, id) {
+export function thunkUpdateCart({ id, productCount, token }) {
   return async function (dispatch) {
+    console.log(productCount, id);
+    let response, data;
     try {
-      await fetch(URL + "/user/products/" + id, {
+      response = await fetch(URL + "/user/products/", {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({ productId: id, productCount }),
+      });
+      data = await response.json();
+
+      if (!response.ok) throw new Error(data.message);
+
+      const product = data.products.filter((prod) => prod._id === id);
+      dispatch(updateCartAction(product[0]));
+    } catch (err) {
+      console.log(err);
+      dispatch(NotifyAction(err.message));
+    }
+  };
+}
+
+export function thunkRemoveItemFromCart(token, id, title) {
+  return async function (dispatch) {
+    let response, data;
+    try {
+      response = await fetch(URL + "/user/products/" + id, {
         method: "DELETE",
         credentials: "include",
         headers: {
           Authorization: "Bearer " + token,
         },
       });
+      data = await response.json();
+
+      if (!response.ok) throw new Error(data.message);
+
+      dispatch(NotifyAction(title + " removed from Cart"));
       dispatch(deleteCartItemAction(id));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction(err.message));
     }
   };
 }
@@ -119,40 +146,54 @@ export function thunkgetFav(token) {
 
 export function thunkAddToFav(token, details) {
   return async function (dispatch) {
+    let response, data;
     try {
-      await fetch(URL + "/user/products/favourites/" + details.id, {
+      response = await fetch(URL + "/user/products/favourites/" + details.id, {
         method: "POST",
         credentials: "include",
         headers: {
           Authorization: "Bearer " + token,
         },
       });
+      data = await response.json();
+
+      if (!response.ok) throw new Error(data.message);
+
       const {
         title: productName,
         price: productPrice,
         imageUrl: productUrl,
         id: _id,
       } = details;
+      dispatch(NotifyAction(`${productName} added to Favourites`));
       dispatch(addToFavAction({ productPrice, productName, productUrl, _id }));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction(err.message));
     }
   };
 }
 
-export function thunkRemoveItemFromFav(token, id) {
+export function thunkRemoveItemFromFav(token, id, title) {
   return async function (dispatch) {
+    let response, data;
     try {
-      await fetch(URL + "/user/products/favourites/" + id, {
+      response = await fetch(URL + "/user/products/favourites/" + id, {
         method: "DELETE",
         credentials: "include",
         headers: {
           Authorization: "Bearer " + token,
         },
       });
+      data = await response.json();
+
+      if (!response.ok) throw new Error(data.message);
+
+      dispatch(NotifyAction(title + " removed from Favourites"));
       dispatch(deleteFavItemAction(id));
     } catch (err) {
       console.log(err);
+      dispatch(NotifyAction(err.message));
     }
   };
 }

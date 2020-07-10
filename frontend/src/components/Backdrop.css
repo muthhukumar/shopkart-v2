@@ -1,0 +1,11 @@
+.backdrop {
+  min-width: 100%;
+  min-height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
