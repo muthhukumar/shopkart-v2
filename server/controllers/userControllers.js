@@ -60,7 +60,6 @@ const signup = async (req, res, next) => {
   try {
     await newUser.save();
   } catch (err) {
-    console.log(err);
     return next(new Error("Creating new user failed, try again later", err));
   }
 
@@ -181,9 +180,13 @@ const refresh_token = async (req, res, next) => {
 };
 
 const logout = (req, res, next) => {
-  res.clearCookie("refreshtoken", {
-    path: "/api/v1/user/refresh_token",
-  });
+  try {
+    res.clearCookie("refreshtoken", {
+      path: "/api/v1/user/refresh_token",
+    });
+  } catch (err) {
+    return next(new Error("Something went wrong when logging out"));
+  }
 
   res.status(200).json({ message: "logout successful" });
 };

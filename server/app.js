@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: process.env.CORS_ORIGIN,
   })
 );
 

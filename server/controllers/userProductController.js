@@ -34,7 +34,7 @@ const addProduct = async (req, res, next) => {
   try {
     await user.save();
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("Adding product to the cart failed"));
   }
 
   const productsIds = [];
@@ -56,8 +56,11 @@ const addProduct = async (req, res, next) => {
       productName: userProducts[i].productName,
       productPrice: userProducts[i].productPrice,
       productUrl: userProducts[i].productUrl,
-      count: user.cart[i].productCount,
     };
+    const prodcount = user.cart.filter(
+      (prod) => prod.productId.toString() === userProducts[i]._id.toString()
+    );
+    prod.count = prodcount[0].productCount;
     allProducts.push(prod);
   }
 
@@ -66,8 +69,9 @@ const addProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   const error = validationResult(req);
-  if (!error.isEmpty() || req.body.productCount <= 0)
+  if (!error.isEmpty() || req.body.productCount <= 0) {
     return next(new Error("Invalid values passed"));
+  }
   if (!req.isAuth) {
     res.statusCode = 401;
     return next(new Error("UnAuthorized"));
@@ -129,8 +133,12 @@ const updateProduct = async (req, res, next) => {
       productName: userProducts[i].productName,
       productPrice: userProducts[i].productPrice,
       productUrl: userProducts[i].productUrl,
-      count: user.cart[i].productCount,
     };
+    const prodcount = user.cart.filter(
+      (prod) => prod.productId.toString() === userProducts[i]._id.toString()
+    );
+    prod.count = prodcount[0].productCount;
+
     allProducts.push(prod);
   }
 
@@ -158,7 +166,9 @@ const removeProduct = async (req, res, next) => {
   );
 
   if (product.length === 0)
-    return res.status(200).json({ message: "not found", products: user.cart });
+    return res
+      .status(200)
+      .json({ message: "Product not found", products: user.cart });
 
   const index = user.cart.findIndex(
     (product) => product.productId.toString() === id
@@ -169,7 +179,7 @@ const removeProduct = async (req, res, next) => {
   try {
     await user.save();
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("Updating cart failed"));
   }
   const productsIds = [];
   for (let i = 0; i < user.cart.length; i++) {
@@ -190,8 +200,11 @@ const removeProduct = async (req, res, next) => {
       productName: userProducts[i].productName,
       productPrice: userProducts[i].productPrice,
       productUrl: userProducts[i].productUrl,
-      count: user.cart[i].productCount,
     };
+    const prodcount = user.cart.filter(
+      (prod) => prod.productId.toString() === userProducts[i]._id.toString()
+    );
+    prod.count = prodcount[0].productCount;
     allProducts.push(prod);
   }
 
@@ -221,7 +234,7 @@ const products = async (req, res, next) => {
   try {
     userProducts = await Product.find({ _id: { $in: productsIds } });
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("something went wrong when getting products"));
   }
 
   const allProducts = [];
@@ -231,9 +244,12 @@ const products = async (req, res, next) => {
       productName: userProducts[i].productName,
       productPrice: userProducts[i].productPrice,
       productUrl: userProducts[i].productUrl,
-      count: user.cart[i].productCount,
     };
+    const prodcount = user.cart.filter(
+      (prod) => prod.productId.toString() === userProducts[i]._id.toString()
+    );
     allProducts.push(prod);
+    prod.count = prodcount[0].productCount;
   }
 
   res.status(200).json({ products: allProducts });
@@ -267,7 +283,7 @@ const addFavourite = async (req, res, next) => {
   try {
     await user.save();
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("Adding favourite failed"));
   }
 
   let favourites;
@@ -298,7 +314,7 @@ const favourites = async (req, res, next) => {
   try {
     favourites = await Product.find({ _id: { $in: user.favourites } });
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("something went wrong when getting favourites"));
   }
 
   res.status(200).json({ favourites });
@@ -327,7 +343,7 @@ const removeFavourite = async (req, res, next) => {
   if (favourite.length === 0)
     return res
       .status(200)
-      .json({ message: "not found", favourites: user.favourites });
+      .json({ message: "favourite not found", favourites: user.favourites });
 
   const index = user.favourites.findIndex(
     (favourite) => favourite.toString() === id
@@ -340,7 +356,7 @@ const removeFavourite = async (req, res, next) => {
   try {
     await user.save();
   } catch (err) {
-    return next(new Error("something went wrong"));
+    return next(new Error("Removing favourite failed"));
   }
 
   let favourites;
