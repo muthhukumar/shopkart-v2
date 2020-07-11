@@ -283,7 +283,6 @@ const addFavourite = async (req, res, next) => {
   try {
     await user.save();
   } catch (err) {
-    console.log(err);
     return next(new Error("Adding favourite failed"));
   }
 
