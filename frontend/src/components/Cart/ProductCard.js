@@ -4,7 +4,14 @@ import "./ProductCard.css";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkUpdateCart } from "../../redux/productStore/thunkActionCreators";
 
-export default function ({ token, title, price, onFavRemove, id, imageUrl }) {
+export default function ({
+  token,
+  title,
+  price,
+  onProductRemove,
+  id,
+  imageUrl,
+}) {
   const dispatch = useDispatch();
   const count = useSelector((state) => {
     return state.product.cart.filter((prod) => prod._id === id)[0].count;
@@ -19,13 +26,16 @@ export default function ({ token, title, price, onFavRemove, id, imageUrl }) {
   };
 
   return (
-    <div className="home-container">
-      <div className="product-main_container">
-        <img src={imageUrl} alt={title} />
-        <div className="bottomContainer">
+    <div className="cart-card">
+      <img src={imageUrl} alt={title} />
+      <div className="product-content_container">
+        <div className="product-detail">
           <h3 className="productName">{title}</h3>
-          <div className="price">${price}</div>
-          <div className="buttonContainer">
+          <div className="price">₹ {price}</div>
+        </div>
+        <div className="cart-button_container">
+          <div className="count-container">
+            <div> Product count</div>
             <div className="counter-container">
               <button
                 className={count === 1 ? "disabled" : null}
@@ -37,8 +47,13 @@ export default function ({ token, title, price, onFavRemove, id, imageUrl }) {
               {count}
               <button onClick={onCounterIncreaseHandler}>+</button>
             </div>
-            <button onClick={onFavRemove.bind(this, id, title)}>remove</button>
           </div>
+          <button
+            className="remove-btn"
+            onClick={onProductRemove.bind(this, id, title)}
+          >
+            remove
+          </button>
         </div>
       </div>
     </div>

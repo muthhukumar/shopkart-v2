@@ -5,7 +5,10 @@ import {
   autoLoginAction,
 } from "./actionCreators";
 import { productLogoutAction } from "../productStore/actionCreators";
-import { NotifyAction } from "../ErrorHandlerStore/actionCreators";
+import {
+  NotifyAction,
+  stopLoadingAction,
+} from "../ErrorHandlerStore/actionCreators";
 
 export const thunkSignup = (cred) => {
   return async function (dispatch) {
@@ -29,9 +32,10 @@ export const thunkSignup = (cred) => {
       dispatch(NotifyAction("SignUp Successfull"));
       dispatch(signupAction(data.accesstoken));
     } catch (err) {
-      console.log(err);
+      if (!err.message) return dispatch(NotifyAction("Something went wrong"));
       dispatch(NotifyAction(err.message));
     }
+    dispatch(stopLoadingAction());
   };
 };
 
@@ -50,16 +54,15 @@ export const thunkLogin = (cred) => {
       });
 
       data = await response.json();
-      console.log(response.ok);
-      console.log(response.ok);
       if (!response.ok) throw new Error(data.message);
 
       dispatch(NotifyAction("Login Successfull"));
       dispatch(loginAction(data.accesstoken));
     } catch (err) {
-      console.log(err);
+      if (!err.message) return dispatch(NotifyAction("Something went wrong"));
       dispatch(NotifyAction(err.message));
     }
+    dispatch(stopLoadingAction());
   };
 };
 
@@ -80,9 +83,10 @@ export const thunkAutoLogin = (cred) => {
       data = await response.json();
       dispatch(autoLoginAction(data.accesstoken));
     } catch (err) {
+      if (!err.message) return dispatch(NotifyAction("Something went wrong"));
       dispatch(autoLoginAction(""));
-      console.log(err);
     }
+    dispatch(stopLoadingAction());
   };
 };
 
@@ -105,8 +109,9 @@ export const thunkLogout = () => {
       dispatch(productLogoutAction());
       dispatch(NotifyAction("Logged out"));
     } catch (err) {
-      console.log(err);
+      if (!err.message) return dispatch(NotifyAction("Something went wrong"));
       dispatch(NotifyAction("Logging out failed"));
     }
+    dispatch(stopLoadingAction());
   };
 };

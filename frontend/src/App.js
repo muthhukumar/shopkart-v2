@@ -21,6 +21,8 @@ import {
 } from "./redux/productStore/thunkActionCreators";
 import Fallback from "./components/fallback";
 import ErrorModal from "./components/ErrorModal";
+import LoadingSpinner from "./components/shared/LoadingSpinner";
+import Backdrop from "./components/Backdrop";
 
 function App() {
   const data = useSelector((state) => {
@@ -31,6 +33,8 @@ function App() {
       state.product.products,
       state.user.gotInitialData,
       state.action.isNotificationOpen,
+      state.action.isLoading,
+      state.action.isBackdropOpen,
     ];
   });
   const [
@@ -40,6 +44,8 @@ function App() {
     products,
     gotInitialData,
     isNotificationOpen,
+    isLoading,
+    isBackdropOpen,
   ] = data;
   let routes;
   const dispatch = useDispatch();
@@ -77,6 +83,8 @@ function App() {
     <Router>
       <Navigation />
       {isNotificationOpen && <ErrorModal />}
+      {isBackdropOpen && <Backdrop />}
+      {isLoading && <LoadingSpinner />}
       <main>{routes}</main>
     </Router>
   );

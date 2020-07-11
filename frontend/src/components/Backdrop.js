@@ -5,7 +5,7 @@ import "./Backdrop.css";
 
 export default function () {
   return ReactDOM.createPortal(
-    <div className="backdrop" />,
+    <div className="backdrop"></div>,
     document.getElementById("backdrop")
   );
 }

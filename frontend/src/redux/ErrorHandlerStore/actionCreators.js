@@ -3,6 +3,8 @@ import {
   LOADING,
   STOP_LOADING,
   NOTIFICATION_MESSAGE,
+  OPEN_BACKDROP,
+  CLOSE_BACKDROP,
 } from "./actionTypes";
 
 export function loadingAction() {
@@ -29,3 +31,16 @@ export function closeNotifyAction() {
     type: CLOSE_NOTIFICATION,
   };
 }
+
+export function openBackdropAction() {
+  return {
+    type: OPEN_BACKDROP,
+  };
+}
+
+export function closeBackdropAction() {
+  return {
+    type: CLOSE_BACKDROP,
+  };
+}
+

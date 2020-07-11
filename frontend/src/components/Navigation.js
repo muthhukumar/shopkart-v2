@@ -32,7 +32,7 @@ function Navigation() {
   if (path) return null;
   return (
     <div className="navigation">
-      <div className="nav-title">ShopKart</div>
+      <div className="nav-title">SHOPcart</div>
       <ul>
         <li>
           <NavLink to="/home">home</NavLink>

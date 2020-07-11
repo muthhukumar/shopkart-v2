@@ -32,14 +32,10 @@ export default (state = initialState, action) => {
       const index = state.cart.findIndex(
         (prod) => prod._id === action.payload._id
       );
-      console.log(index);
       const usercart = [...state.cart];
-      console.log(usercart[index]);
       usercart[index] = {
         ...action.payload,
       };
-      console.log(usercart[index]);
-      console.log(usercart[index]);
       return { ...state, cart: [...usercart] };
 
     case REMOVE_ITEM_FROM_CART:

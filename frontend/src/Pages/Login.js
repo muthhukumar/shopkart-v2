@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Input from "../components/Input";
 import useInput from "../lib/input-hook";
 import { thunkLogin } from "../redux/userStore/thunkActionCreators";
+import { loadingAction } from "../redux/ErrorHandlerStore/actionCreators";
 
 import "./Login.css";
 
@@ -19,6 +20,7 @@ function Login() {
       email,
       password,
     };
+    dispatch(loadingAction());
     dispatch(thunkLogin(cred));
   };
   return (

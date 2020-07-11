@@ -2,12 +2,16 @@
 
 .home-container {
   margin: 0.8rem;
-  width: 15rem;
+  width: 17rem;
   height: 27rem;
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
   border-radius: 6px;
+  border: 1px solid #ccc;
   overflow: hidden;
   position: relative;
+}
+.home-container:hover {
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 .home-container button:hover {
   cursor: pointer;
@@ -34,8 +38,16 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 65% 35%;
+  grid-template-rows: 70% 30%;
 }
+.product-main_container .remove-btn {
+  font-weight: bold;
+  font-family: lato, sans-serif;
+  background: white;
+  border: 1px solid #ccc;
+  color: #656565;
+}
+
 .product-main_container img {
   justify-content: center;
   width: 100%;

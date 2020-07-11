@@ -1,21 +1,29 @@
 .main-container {
-  display: grid;
-  grid-template-areas:
-    "title"
-    "content";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.4rem;
+  padding: 0 2rem;
+  flex-direction: column;
+}
+.home-content_container {
+  border: 1px solid #ccc;
+  width: 93%;
+  border-radius: 4px;
+  height: 100%;
 }
 .product-title {
+  margin: 1rem 0;
   width: 100%;
   font-size: 3rem;
+  margin-left: 2rem;
   font-weight: bolder;
   letter-spacing: 3px;
-  grid-area: title;
-  text-align: center;
 }
 .product-card {
+  width: 100%;
   grid-area: content;
-  grid-template-columns: repeat(auto-fit, 19rem);
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 18.8rem);
   display: grid;
-  grid-auto-columns: repeat(19rem, auto);
+  justify-content: center;
 }

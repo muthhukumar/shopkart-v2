@@ -1,45 +1,53 @@
-.home-container {
-  margin: 0.8rem;
-  width: 15rem;
-  height: 27rem;
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
+.fav-card {
+  margin: 0.5rem;
+  height: 10rem;
   overflow: hidden;
-  position: relative;
-}
-.home-container button:hover {
-  cursor: pointer;
-  outline: none;
-}
-.home-fav {
-  align-items: center;
-  position: absolute;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  top: 1rem;
-  border: none;
-  right: 1rem;
+  justify-content: flex-start;
+  padding: 0.5rem;
 }
-.home-highlight {
-  background: var(--font-color);
-  border: 1px solid white;
-}
-.product-main_container {
+
+.fav-buttonContainer {
+  display: flex;
   width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 65% 35%;
+  align-items: center;
+  justify-content: flex-start;
 }
-.product-main_container img {
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+.fav-buttonContainer button {
+  margin: 0.1rem 0.3rem;
+  padding: 0.3rem 1.1rem;
   border-radius: 4px;
+  border: none;
+  text-transform: capitalize;
+  background: var(--font-color);
+  color: white;
 }
+
+.fav-card img {
+  width: 8rem;
+  height: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.fav-product-content_container {
+  margin: 0 1rem;
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.fav-product-detail {
+  display: flex;
+  margin: 0.4rem;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .productName {
   font-weight: 400;
   letter-spacing: 0.4px;
@@ -54,26 +62,10 @@
   font-size: 0.9rem;
   color: var(--font-color);
 }
-.bottomContainer {
-  padding: 0.8rem;
+
+.prod-detail_container {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   flex-direction: column;
-  justify-content: center;
 }
-.buttonContainer {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}
-.buttonContainer button {
-  margin: 0.1rem 0.3rem;
-  padding: 0.3rem 1.1rem;
-  border-radius: 4px;
-  border: none;
-  text-transform: capitalize;
-  background: var(--font-color);
-  color: white;
-}
-

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Input from "../components/Input";
 import useCustomInput from "../lib/input-hook";
 import { thunkSignup } from "../redux/userStore/thunkActionCreators";
+import { loadingAction } from "../redux/ErrorHandlerStore/actionCreators";
 
 import "./Signup.css";
 function SignUp() {
@@ -23,6 +24,7 @@ function SignUp() {
       username,
       phonenumber,
     };
+    dispatch(loadingAction());
     dispatch(thunkSignup(credentials));
   };
   return (
