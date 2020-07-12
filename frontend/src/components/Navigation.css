@@ -82,7 +82,7 @@
   justify-content: center;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   .navigation {
     width: 100%;
     padding: 0.3rem;

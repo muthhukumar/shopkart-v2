@@ -18,7 +18,7 @@
   color: var(--font-color);
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   .error-modal {
     width: 100%;
     bottom: 0.5rem;

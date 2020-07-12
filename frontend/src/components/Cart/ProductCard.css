@@ -92,7 +92,7 @@
   color: #656565;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   .cart-card {
     margin: 0;
     padding: 0;

@@ -67,7 +67,7 @@
   justify-content: center;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   .place-order_container {
     top: 20%;
     left: unset;

@@ -35,7 +35,7 @@ button:focus {
   outline: none;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   body main {
     padding-top: 5.6rem;
   }

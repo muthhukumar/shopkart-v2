@@ -89,7 +89,7 @@
   padding: 2rem;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   .cart-main-container {
     padding: 0.5rem;
   }

@@ -45,7 +45,7 @@
   padding: 2rem;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 640px) {
   .fav-main-container {
     padding: 1.5rem;
   }
