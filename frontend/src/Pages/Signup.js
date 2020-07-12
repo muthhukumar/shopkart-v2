@@ -1,68 +1,69 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 
 import Input from "../components/Input";
-import useCustomInput from "../lib/input-hook";
 import { thunkSignup } from "../redux/userStore/thunkActionCreators";
 import { loadingAction } from "../redux/ErrorHandlerStore/actionCreators";
-
 import "./Signup.css";
+
 function SignUp() {
-  const [email, setEmail] = useCustomInput();
-  const [password, setPassword] = useCustomInput();
-  const [username, setUsername] = useCustomInput();
-  const [phonenumber, setPhonenumber] = useCustomInput();
+  const { register, handleSubmit, errors } = useForm();
 
   const dispatch = useDispatch();
 
-  const formSubmitHandler = (event) => {
-    event.preventDefault();
-    const credentials = {
-      email,
-      password,
-      username,
-      phonenumber,
-    };
+  const formSubmitHandler = (data) => {
     dispatch(loadingAction());
-    dispatch(thunkSignup(credentials));
+    const cred = {
+      username: data.Username,
+      password: data.Password,
+      email: data.Email,
+      phonenumber: data.Phonenumber,
+    };
+    dispatch(thunkSignup(cred));
   };
   return (
     <div className="signup-main">
       <div className="signup-container">
         <h3>Sign up</h3>
-        <form onSubmit={formSubmitHandler}>
+        <form onSubmit={handleSubmit(formSubmitHandler)}>
           <Input
             title="Username"
             placeholder="username"
             inputType="text"
-            required={true}
-            value={username}
-            onChange={setUsername}
+            ref={register({
+              required: true,
+              minLength: 4,
+              pattern: /^[A-Za-z]+$/i,
+            })}
+            error={errors.Username && "Username must have 4 characters"}
           />
           <Input
-            value={email}
             title="Email"
             placeholder="email"
             inputType="email"
-            required={true}
-            onChange={setEmail}
+            ref={register({ required: true })}
+            error={errors.Email && "Please enter valid Email address"}
           />
           <Input
             title="Password"
             placeholder="password"
             inputType="password"
-            required={true}
-            value={password}
-            onChange={setPassword}
+            ref={register({ required: true, minLength: 8 })}
+            error={errors.Password && "Password must be atleast 8 characters"}
           />
           <Input
             title="Phonenumber"
             placeholder="phonenumber"
             inputType="text"
-            required={true}
-            value={phonenumber}
-            onChange={setPhonenumber}
+            ref={register({
+              required: true,
+              minLength: 10,
+              pattern: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im,
+              maxLength: 10,
+            })}
+            error={errors.Phonenumber && "Please enter valid phone number"}
           />
           <button type="submit">Sign up</button>
         </form>

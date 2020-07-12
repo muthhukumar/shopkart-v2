@@ -6,6 +6,9 @@
   align-items: center;
   justify-content: center;
 }
+.signup-main h3 {
+  color: var(--font-color);
+}
 .signup-container {
   display: flex;
   flex-direction: column;

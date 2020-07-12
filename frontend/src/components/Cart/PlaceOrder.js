@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 
 import "./PlaceOrder.css";
 import Input from "../Input";
-import useInput from "../../lib/input-hook";
 import {
   closeBackdropAction,
   NotifyAction,
@@ -11,23 +11,10 @@ import {
 
 export default function ({ onClick }) {
   const dispatch = useDispatch();
-  const [name, setName] = useInput();
-  const [phonenumber, setPhonenumber] = useInput();
-  const [pincode, setPincode] = useInput();
-  const [address, setAddress] = useInput();
-  const [city, setCity] = useInput();
-  const [formData, setformData] = useState({});
+  const { register, handleSubmit, errors } = useForm();
 
-  const saveDetails = (event) => {
-    event.preventDefault();
-    setformData({
-      name,
-      phonenumber,
-      pincode,
-      address,
-      city,
-    });
-    onClick(formData);
+  const saveDetails = (data) => {
+    onClick(data);
     dispatch(NotifyAction("Order Placed"));
     dispatch(closeBackdropAction());
   };
@@ -40,46 +27,53 @@ export default function ({ onClick }) {
     <div className="place-order_container">
       <h4>Delivery Address</h4>
       <div className="delivery-address">
-        <form onSubmit={saveDetails}>
+        <form onSubmit={handleSubmit(saveDetails)}>
           <Input
             title="Name"
-            required={true}
             placeholder="Name"
             inputType="text"
-            value={name}
-            onChange={setName}
+            ref={register({
+              required: true,
+              minLength: 4,
+              pattern: /^[A-Za-z]+$/i,
+            })}
+            error={errors.Name && "Name should be atleast 4 characters"}
           />
           <Input
-            required={true}
-            title="Phone Number"
+            title="PhoneNumber"
             placeholder="Phone number"
             inputType="tel"
-            value={phonenumber}
-            onChange={setPhonenumber}
+            ref={register({
+              required: true,
+              minLength: 10,
+              pattern: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im,
+              maxLength: 10,
+            })}
+            error={errors.PhoneNumber && "Please enter valid Phone number"}
           />
           <Input
-            required={true}
             placeholder="Pincode"
             title="Pincode"
             inputType="text"
-            value={pincode}
-            onChange={setPincode}
+            ref={register({
+              required: true,
+              minLength: 6,
+            })}
+            error={errors.Pincode && "Please enter valid pincode"}
           />
           <Input
-            required={true}
             placeholder="address"
             inputType="textarea"
             title="Address"
-            value={address}
-            onChange={setAddress}
+            ref={register({ required: true })}
+            error={errors.Address && "Please enter valid address"}
           />
           <Input
-            required={true}
             placeholder="city"
             inputType="text"
-            value={city}
             title="City"
-            onChange={setCity}
+            ref={register({ required: true })}
+            error={errors.City && "Please enter valid city"}
           />
           <div className="button-container">
             <button type="submit">confirm & place order</button>
