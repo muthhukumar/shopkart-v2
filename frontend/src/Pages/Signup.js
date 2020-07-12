@@ -35,7 +35,7 @@ function SignUp() {
             ref={register({
               required: true,
               minLength: 4,
-              pattern: /^[A-Za-z]+$/i,
+              pattern: /^[a-zA-Z0-9]+$/,
             })}
             error={errors.Username && "Username must have 4 characters"}
           />
