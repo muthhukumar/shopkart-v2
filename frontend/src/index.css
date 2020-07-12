@@ -27,3 +27,10 @@ h5,
 h6 {
   font-family: "Montserrat", sans-serif;
 }
+button::-moz-focus-inner {
+  outline: none;
+}
+button:active,
+button:focus {
+  outline: none;
+}
