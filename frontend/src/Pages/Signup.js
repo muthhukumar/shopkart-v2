@@ -37,7 +37,10 @@ function SignUp() {
               minLength: 4,
               pattern: /^[a-zA-Z0-9]+$/,
             })}
-            error={errors.Username && "Username must have 4 characters"}
+            error={
+              errors.Username &&
+              "Username must have 4 characters and must not contain any space"
+            }
           />
           <Input
             title="Email"
