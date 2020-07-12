@@ -43,6 +43,7 @@
 }
 @media (max-width: 640px) {
   .loading-spinner_container {
+    width: 100%;
     left: 43%;
   }
 }

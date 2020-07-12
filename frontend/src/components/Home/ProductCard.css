@@ -90,3 +90,10 @@
   background: var(--font-color);
   color: white;
 }
+
+@media (max-width: 640px) {
+  .buttonContainer button {
+    height: 2.5rem;
+    width: 6rem;
+  }
+}

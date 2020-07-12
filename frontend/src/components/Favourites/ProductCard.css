@@ -69,3 +69,16 @@
   justify-content: center;
   flex-direction: column;
 }
+
+@media (max-width: 640px) {
+  .fav-card {
+    height: 14rem;
+  }
+  .fav-card img {
+    width: 12rem;
+  }
+  .fav-buttonContainer button {
+    height: 2.6rem;
+    width: 6rem;
+  }
+}

@@ -20,6 +20,7 @@
 
 @media (max-width: 640px) {
   .error-modal {
+    max-width: 100%;
     width: 100%;
     bottom: 0.5rem;
     left: 0;
