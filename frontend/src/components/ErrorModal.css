@@ -17,3 +17,11 @@
   font-family: lato, sans-serif;
   color: var(--font-color);
 }
+
+@media (max-width: 460px) {
+  .error-modal {
+    width: 100%;
+    bottom: 0.5rem;
+    left: 0;
+  }
+}

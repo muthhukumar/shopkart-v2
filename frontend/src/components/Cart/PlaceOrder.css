@@ -66,3 +66,14 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 460px) {
+  .place-order_container {
+    top: 20%;
+    left: unset;
+    width: 80%;
+  }
+  .delivery-address {
+    width: 90%;
+  }
+}

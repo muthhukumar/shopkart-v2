@@ -6,6 +6,9 @@
   align-items: center;
   justify-content: center;
 }
+.login-main h3 {
+  color: var(--font-color);
+}
 .login-container {
   display: flex;
   flex-direction: column;

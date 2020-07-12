@@ -41,3 +41,8 @@
     height: 32px;
   }
 }
+@media (max-width: 460px) {
+  .loading-spinner_container {
+    left: 43%;
+  }
+}

@@ -50,7 +50,7 @@ function Home() {
   };
 
   return (
-    <div className="main-container">
+    <div className="home-main-container">
       <div className="home-content_container">
         <div className="product-title">Products</div>
         <div className="product-card">

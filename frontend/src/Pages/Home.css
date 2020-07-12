@@ -1,4 +1,4 @@
-.main-container {
+.home-main-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +12,7 @@
   border-radius: 4px;
   height: 100%;
 }
+
 .product-title {
   margin: 1rem 0;
   width: 100%;
@@ -26,4 +27,17 @@
   grid-template-columns: repeat(auto-fit, 18.8rem);
   display: grid;
   justify-content: center;
+}
+
+@media (max-width: 460px) {
+  .home-content_container {
+    border: none;
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .product-title {
+    font-size: 2rem;
+    text-align: center;
+    margin: 0;
+  }
 }

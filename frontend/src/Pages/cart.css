@@ -5,6 +5,7 @@
   justify-content: center;
 }
 .cart-products {
+  margin-top: 0.5rem;
   position: relative;
   padding: inherit;
   width: 80%;
@@ -86,4 +87,22 @@
 
 .pad-0 .cart-products {
   padding: 2rem;
+}
+
+@media (max-width: 460px) {
+  .cart-main-container {
+    padding: 0.5rem;
+  }
+  .cart-products {
+    width: 100%;
+    padding: 0.5rem;
+  }
+  .cart-product {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-product-title {
+    padding: 0 0.5rem;
+  }
 }

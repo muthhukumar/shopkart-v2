@@ -44,3 +44,12 @@
 .pad-0 .cart-products {
   padding: 2rem;
 }
+
+@media (max-width: 460px) {
+  .fav-main-container {
+    padding: 1.5rem;
+  }
+  .fav-products {
+    width: 100%;
+  }
+}
