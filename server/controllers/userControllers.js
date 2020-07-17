@@ -60,6 +60,8 @@ const signup = async (req, res, next) => {
   try {
     await newUser.save();
   } catch (err) {
+    console.log(newUser);
+    console.log(err);
     return next(new Error("Creating new user failed, try again later", err));
   }
 

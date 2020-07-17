@@ -21,7 +21,9 @@ export function thunkGetProducts() {
       response = await fetch(URL + "/products");
       data = await response.json();
       dispatch(fetchProductsAction(data.products));
-    } catch (err) {}
+    } catch (err) {
+      dispatch(fetchProductsAction([]));
+    }
   };
 }
 
@@ -37,7 +39,9 @@ export function thunkGetCart(token) {
       });
       data = await response.json();
       dispatch(getCartAction(data.products));
-    } catch (err) {}
+    } catch (err) {
+      dispatch(getCartAction([]));
+    }
   };
 }
 
@@ -136,7 +140,9 @@ export function thunkgetFav(token) {
       });
       data = await response.json();
       dispatch(getFavAction(data.favourites));
-    } catch (err) {}
+    } catch (err) {
+      dispatch(getFavAction([]));
+    }
   };
 }
 

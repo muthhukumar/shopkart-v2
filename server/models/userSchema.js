@@ -28,7 +28,6 @@ const newUser = new Schema({
       {
         type: mongoose.ObjectId,
         ref: "Product",
-        unique: true,
       },
     ],
   },
