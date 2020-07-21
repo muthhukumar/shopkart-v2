@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Home.css";
@@ -10,9 +11,14 @@ import {
   thunkRemoveItemFromFav,
   thunkRemoveItemFromCart,
 } from "../redux/productStore/thunkActionCreators";
-import { loadingAction } from "../redux/ErrorHandlerStore/actionCreators";
+import {
+  loadingAction,
+  NotifyAction,
+} from "../redux/ErrorHandlerStore/actionCreators";
 
 function Home() {
+  const history = useHistory();
+
   const data = useSelector((state) => {
     return state.product.products;
   });
@@ -30,11 +36,23 @@ function Home() {
   }, [dispatch, data.length]);
 
   const addToCartHandler = (id) => {
+    if (!token) {
+      history.push("/login");
+      return dispatch(
+        NotifyAction("You need to login before adding to the cart")
+      );
+    }
     dispatch(thunkAddToCart(token, id));
     dispatch(loadingAction());
   };
 
   const favAddHandler = (id) => {
+    if (!token) {
+      history.push("/login");
+      return dispatch(
+        NotifyAction("You need to login before adding to the Favourite")
+      );
+    }
     dispatch(loadingAction());
     dispatch(thunkAddToFav(token, id));
   };
