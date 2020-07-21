@@ -16,6 +16,7 @@
   border: 1px solid #e1d8d8;
   font-family: lato, sans-serif;
   color: var(--font-color);
+  animation: optin 400ms ease-out;
 }
 
 @media (max-width: 640px) {
@@ -24,5 +25,17 @@
     width: 100%;
     bottom: 0.5rem;
     left: 0;
+  }
+}
+
+@keyframes optin {
+  0% {
+    transform: translateY(5rem);
+  }
+  50% {
+    transform: translateY(2rem);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
